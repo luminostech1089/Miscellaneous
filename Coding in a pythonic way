@@ -1,0 +1,11 @@
+1) Use PEP8 coding standards.
+
+2) Checking/validating function arguments?
+=> The most Pythonic idiom is to clearly document what the function expects and then just try to use whatever gets passed to your function
+and either let exceptions propagate or just catch attribute errors and raise a TypeError instead. Type-checking should be avoided as much
+as possible as it goes against dynamic typing. Value testing can be OK – depending on the context.
+
+The only place where validation really makes sense is at system or subsystem entry point, such as web forms, command line arguments, etc.
+Everywhere else, as long as your functions are properly documented, it's the caller's responsibility to pass appropriate arguments.
+
+Assertion can be used while unit testing your functions.
