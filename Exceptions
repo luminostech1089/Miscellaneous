@@ -1,0 +1,52 @@
+logging.exception() traces the logs upto the point/origin of exception.
+
+In the below example
+
+-----------------------------------------------------------------------
+import logging
+def inner():
+	try:
+		print "Innner"
+		raise TypeError("Inner Error")
+	except Exception as Ex:
+		raise
+
+def outer():
+	try:
+		print "outer"
+		inner()
+	except Exception as Ex:
+		logging.exception(Ex)
+		raise Exception("Outer exception")
+
+class myClass():
+	def __init__(self, a, inputDict):
+		outer()
+		self.a = inputDict.get("val1")
+			
+
+if __name__ == '__main__':
+	try:
+		m = myClass(10, {"val1":0})
+	except Exception as Ex:
+		logging.exception(Ex)
+-----------------------------------------------------------------------
+
+Scenario 1: It traces logs upto line - raise Exception("Outer exception") [line 18].
+
+Scenario 2: If it would have been just raise statement (i.e reraising the catched exception), it would have traced upto line - raise TypeError("Inner Error") [line 8]
+
+Avoid catching and reraising the same exception. There is no point in doing so.
+<--- Bad Idea --->
+e.g. 
+     try:
+         <code block>
+     except Exception as Ex: 
+		     logging.exception(Ex) 
+		     raise
+<--- Valid usage --->
+     try:
+         <code block>
+     except Exception as Ex: 
+		     logging.exception(Ex) 
+		     raise Exception("Some exception")
