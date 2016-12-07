@@ -1,0 +1,56 @@
+Context enabled classes:
+    - To release/close resource(s) once done.
+    - To Avoid repetition.
+    - Can be alternate to try/finally
+
+# Example
+class SomeConnection(object):
+    """ Any class with some sort of setup and teardown. 
+        e.g. lock.aquire/release, file open/close,
+             connections - http, db, paramiko, socket etc.
+    """
+    def execute(self): 
+        pass
+        #raise Exception('test')
+
+    def close(self):
+        pass
+
+    # Add context ability to class
+    def __enter__(self):
+        # if required do additional initialization.
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        # if required, Do additional tasks like  logging
+        print "Closing"
+        self.close()
+
+#======== Approach:  Context manager ============
+with SomeConnection() as con:
+    con.execute()
+
+#======== Approach:  try/finally  ===============
+con = SomeConnection()
+try:
+    con.execute()
+finally:
+    print "Closing"
+    con.close()
+
+
+Short Notes:
+============
+1. By overriding '__enter__' and '__exit__', we feature the class/object to be used 'with' statement.
+
+   Exaclty similar to, "with open('filename') as fd".
+
+2. __enter__ is automatically called when 'with' statement executed and after object is initialized.
+   
+3. __exit__ is called in case,
+    - When scope of 'with' block ends.
+    - Exception is raised within 'with' block.
+    - Hits return statement within 'with' block.
+    - In case of sys.exit/SystemExit.
+  All above cases do apply to 'finally' block.
+  
