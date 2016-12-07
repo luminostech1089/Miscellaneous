@@ -1,0 +1,40 @@
+for-else/while-else block:
+     - we can use 'else' with 'for' or 'while' loops.
+     - 'else' block executes if, loop is NOT terminated with break.
+        (meaning loop iterates all values without break.)
+
+Use:
+======================================
+  An Alternate way to flag based looping.
+  
+
+# Examples
+
+mylist = [1, 2, 3, 4, 5]
+
+#================= Approach: Flag based ================
+flagfound = False
+for ele in mylist:
+    if ele == 5:
+        flagfound = True
+        break
+
+if flagfound is False:
+    print "Element not found in the list."
+
+#============= Approach: Using for/while-break-else ==============
+for ele in mylist:
+    if ele == 5:
+        break
+else:
+    print "Element not found in the list."
+
+
+# With while loop
+i = 0
+while i < len(mylist):
+    if mylist[i] == 5:
+        break
+    i += 1
+else:
+   print "Element not found in the list."
