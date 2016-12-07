@@ -1,0 +1,33 @@
+Python iterators and sentinel values
+
+iter(callable, sentinel)
+
+- callable :- any callable
+- sentinel :- stop value
+- This form creates an iterator out of any callable, and will stop when an exception is raised
+  or the sentinel value is returned by the callable.
+- Additionally, raising StopIteration will stop the iteration as with a normal iterator. 
+
+# Example
+
+#------ Approach ---------------
+# read data until user enters 'quit'.
+print "Demo1: Enter data, press 'quit' to stop!"
+data = []
+while True:
+    msg = raw_input()
+    if msg == 'quit':
+        break
+    data.append(msg)
+print data
+
+#------- Alternate Approach -------------
+print "Demo2: Enter data press 'quit' to stop!"
+data = []
+for msg in iter(raw_input, 'quit'):
+    data.append(msg)
+print data
+
+Reference:
+-----------
+http://bob.ippoli.to/archives/2005/06/14/python-iterators-and-sentinel-values/
