@@ -1,0 +1,26 @@
+* and ** operators in python:
+
+- "*" operator unpacks sequence/collection into positional arguments
+- "**" operator unpacks dictionary into named arguments
+- They also allows to define the function which takes any number of positional and keyword arguments
+
+******** Examples ***********
+
+-------------- Scenario 1 -----------
+# Unpacking tuple
+def func(arg1, arg2):
+   pass
+
+# Function call
+values = (10, 20)
+func(*values) is equivalent to func(10, 20)
+
+-------------- Scenario 2 -----------
+# Unpacking dictionary
+def func(arg1, arg2):
+   pass
+
+# Function call
+values = (10, 20)
+func(**values) is equivalent to func(arg1=10, arg2=20)
+
