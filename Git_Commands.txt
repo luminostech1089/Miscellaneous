@@ -1,0 +1,113 @@
+Here is the list of some GIT commands that i have found most useful in my development experience.
+
+Clone a remote repository
+-------------------------
+git clone <remote repository URL>
+
+This creates a new directory with the name of repository in current folder.
+
+Create a new branch
+-------------------
+git checkout -b <branch_name>
+
+Switch to already existing branch
+---------------------------------
+git checkout <branch_name>
+
+Pull the latest code from remote branch
+----------------------------------------
+checkout to your branch
+
+git pull origin <remote_branch_name>
+
+Merge master to your branch
+---------------------------
+First checkout to your branch
+
+Then execute -
+
+git merge master 
+OR
+git merge master --no-ff  
+
+no-ff is to avoid fast-forward
+
+Instead of directly merging branch to master, its a good practice to merge latest master to your branch first, resolve conflicts if any
+and then merge the clean branch to the master.
+
+To view the modified files
+--------------------------
+git status
+
+Need to add modified or newly created files to be staged before commit using command 'git add'
+
+Add the changes for commit
+---------------------------
+git add <file1> <file2> <filen>
+
+To view the (non-staged) changes
+--------------------------------
+git diff
+
+This does not track new files
+
+To view the (staged) changes
+--------------------------------
+git diff --cached
+
+See the changes between local branch and local master
+------------------------------------------------------
+git diff origin/master
+
+Display last n commits
+----------------------
+git log -n 
+
+where n is the number of commits to be displayed
+
+Difference between to commits
+-----------------------------
+git diff COMMIT1_ID COMMIT2_ID
+
+git diff COMMIT1_ID COMMIT2_ID > abc.diff  - Save into a file
+
+See files changes between two commits
+-------------------------------------
+git diff --name-only COMMIT1_ID COMMIT2_ID
+
+See all the changes in specific commit
+--------------------------------------
+git show COMMIT_ID
+
+git show COMMIT_ID --name-only
+
+When --name-only is used, displays the changed files only
+
+Commit the changes
+------------------
+git commit -m "commit message"
+
+Note: Commit message should be short and descriptive
+
+Push the commits to remote branch
+---------------------------------
+git push origin <remote_branch_name>
+
+Unto the last commit, preserving the local changes
+---------------------------------------------------
+git reset -soft ~HEAD
+
+use -hard if you want to discard local changes 
+
+Delete all untracked files
+--------------------------
+git clean -f 
+
+See who have changed specified lines and when
+----------------------------------------------
+git blame -L <startlineno>,<endlineno> <file>
+  
+
+
+
+
