@@ -1,0 +1,64 @@
+** Decorator **
+In the context of design pattern, decorators alters functionality of
+ - function or
+ - method or
+ - class without having to directly use subclass.
+
+Mostly used for - extending functionality of a function without changing the original function
+
+Basic funda to remeber: 
+-----------------------
+Functions are first class object means they can be used as any python object like
+ - Functiona can be assigned to a variable
+ - Function can be passed as a parameter to other function
+ - Function can be defined inside other function
+ - Function acn return other function
+
+Simple decorator example:
+-------------------------
+
+def deco(fn):
+	def wrapper(*args, **kwargs):
+		print "Calling function {}".format(fn.func_name)
+		fn(*args, **kwargs)
+	return wrapper
+
+@deco
+def func():
+	print "hello"
+
+func()
+
+Output:
+-------
+Calling function func
+hello
+
+Multiple decorators for a function:
+-----------------------------------
+If a function is decorated by multiple decorators the sequence in which they are called is as shown below
+
+@deco3
+@deco2
+@deco1
+def func():
+	print "hello" 
+	
+Call sequence: deco1 -> deco2 -> deco3
+
+
+Decorating a class method:
+--------------------------
+For decorating a class method, we have to pass an extra parameter to a wrapper function i.e. 'self'
+
+def deco(fn):
+	def wrapper(self):
+		print "Calling function {}".format(fn.func_name)
+		fn()
+	return wrapper
+	
+The decorator 'deco' (refer 'Simple decorator example' above) can be used for decorating a class method since it take any number of arguments.
+However the first arument will be self in case of decorator for a method. 
+
+Decorating a class:
+-------------------
