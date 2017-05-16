@@ -60,5 +60,74 @@ def deco(fn):
 The decorator 'deco' (refer 'Simple decorator example' above) can be used for decorating a class method since it take any number of arguments.
 However the first arument will be self in case of decorator for a method. 
 
+Passing an argument to decorator:
+---------------------------------
+In the above example, we have used three decorators to decorate the function. 
+Suppose the above three decorators adds different html tags to the string. Then in such case creating three different
+decorators seems to be redundant.
+We can pass an argument to a decorator and depending on the parameter it will decorate the function.
+
+def tags(tag_name):
+   def tags_decorator(func):
+      def func_wrapper(name):
+         return "<{0}>{1}</{0}>".format(tag_name, func(name))
+      return func_wrapper
+   return tags_decorator
+
+@tags("p")
+def get_text(name):
+return "Hello "+name 
+
+# Outputs <p>Hello John</p>
+
+Debugging decorator functions:
+-------------------------------
+The debugging in case of decorator can be problemisic since the decorator function overrides the name, module and docstring
+properties of the original function.
+
+For example,
+
+def deco(fn):
+	def wrapper(*args, **kwargs):
+	"""
+	Function: Wrapper
+	"""
+		print "Calling function {}".format(fn.func_name)
+		fn(*args, **kwargs)
+	return wrapper
+
+@deco
+def func():
+"""
+Function: func
+"""
+	print "hello"
+
+# Print function docstring
+print func.__doc__
+
+Outputs:
+Function: Wrapper
+
+To avoid this we can use functools
+
+from functools import wraps
+
+def deco(fn):
+    @wraps(fn)
+	def wrapper(*args, **kwargs):
+	"""
+	Function: Wrapper
+	"""
+		print "Calling function {}".format(fn.func_name)
+		fn(*args, **kwargs)
+	return wrapper
+
+# Print function docstring
+print func.__doc__
+
+Outputs:
+Function: func
+
 Decorating a class:
 -------------------
