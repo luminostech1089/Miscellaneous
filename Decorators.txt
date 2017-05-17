@@ -131,3 +131,83 @@ Function: func
 
 Decorating a class:
 -------------------
+Example use case - add lines before and after the execution of each method for logging purpose.
+ 
+We can decorate each method of class by simply adding a line @deco_name above the method definations. 
+However, it will be redundant lines and one may miss to add decorator when new method is added.
+
+def deco_method(fn):
+	@wraps(fn)
+	def wrapper(*arg, **kwarg):
+		"""
+		Function: Warapper
+		"""
+		print "Calling function {}".format(fn.__name__)
+		ret_val = fn(*arg, **kwarg)
+		print "Executed function {}".format(fn.__name__)
+		return ret_val
+	return wrapper
+
+def clsdeco(cls):
+	names = cls.__dict__.keys()
+
+	for name in names:
+		# Do not decorate private methods
+		if '__' in name:
+			continue 
+		# Get the method
+		value = getattr(cls, name)
+		
+		if isinstance(cls.__dict__[name], staticmethod): # Static method
+			setattr(cls, name, staticmethod(deco_method(cls.__dict__[name].__func__)))
+			continue
+		# CHeck if method is a class method or normal method and decoate accordingly
+		if value.im_self is cls: # CHeck if the method is class method 
+			setattr(cls, name, classmethod(deco_method(value.__func__)))
+		else: # non class method
+			setattr(cls, name, deco_method(value))
+	return cls # return decorated class
+
+@clsdeco
+class Person:
+    message = "Hi Man"
+	
+	def __init__(self, first_name, last_name):
+		self.fname = first_name
+		self.lname = last_name
+		self.age = None
+		
+	def get_name(self):
+		print "Name is '{} {}'".format(self.fname, self.lname)
+	
+	@classmethod
+	def greet_person(cls):
+		print cls.message
+		
+	@staticmethod
+	def say_hi():
+		print "Hiii"
+		
+
+p = Person('chiller', 'party')
+p.get_name()
+p.greet_person()
+
+# Output:
+Calling function get_name
+Name is 'chiller party'
+Executed function get_name
+Calling function greet_person
+"Hi Man"
+Executed function greet_person
+
+Note** 
+The code for decorating a static and class methods needs to be understood here.
+The class method is already decorated inside a class by using '@classmethod' when it is to be decorated further.
+@classmethod decorator returns a descriptor which implicitly adds 'cls' as an extra agrument when we call the classmethod using an object of a class.
+So we need to decorate it as classmethod(deco_method(value.__func__))) where value.__func__ is the origional funation (not the decorated one by @classmethod)
+
+
+Since static method does not have self object, function attribute does not have im_self (or __self__) attribute.
+Hence to identify if method is a static method we need to use 'isinstance(cls.__dict__[name], staticmethod)'
+ 
