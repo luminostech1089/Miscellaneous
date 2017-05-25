@@ -1,0 +1,95 @@
+The Python unit testing framework, sometimes referred to as “PyUnit,” is a Python language version of JUnit.
+Module name is 'unittest' which comes as a standart python library.
+
+Here is the sample example:
+
+
+<--- Method for which unit test is to be written --->
+VsphereHost is a class for performing operation on ESXi host. 
+addHost() method adds esxi host to vcenter server.  We are going to write unit tests for add host method.
+
+class VsphereHost(object):
+    """
+    Class for host operations
+    """
+    
+    def __init__(self, si):
+        self.si = si # Service instance
+	
+	def addHost(self, cluster_name, host_name, host_spec_dict, timeout):
+        """
+        Add esxi host to vmware vcenter server
+        """
+        try:
+            # check if specified  host exists
+            host = vcenterlib.get_host(self.si, host_name)
+            if host:
+                raise ValueError("Host {} already exists.".format(host_name))
+
+            # get cluster
+            cluster = vcenterlib.get_cluster(self.si, cluster_name)
+            if not cluster:
+                raise ValueError("Cluster {} not found".format(cluster_name))
+
+            # Set the host specification
+            host_spec = self._set_host_spec(host_name, host_spec_dict)
+
+            # Add the host to vCenter
+            task = cluster.AddHost(spec=host_spec)
+
+            # wait for task completion
+            vcenterlib.wait_for_task(task, timeout)
+
+        except Exception as ex:
+            raise Exception("Failed to add host {}.".format(host_name))
+			
+
+< --- Unit Tests --->
+
+import unittest # Import unittest module 
+from unittest import TestCase # Import TestCase class from unittest
+import VsphereHost # Import your local modules for which unit tests to be written
+
+class HostOperations(TestCase):
+    	
+    def setUp(self):
+        """
+        Sets the instance attributes, this gets called before execution of every test
+        """
+        self.vim = Mock()
+
+    def tearDown(self):
+        """
+        This gets called after execution of every test (Releases/deletes instance attributes)
+        """
+        del self.vim
+
+    @classmethod
+    def setUpClass(cls):
+        """
+        Sets the class attributes, this gets called before execution of all tests in the Test Class.
+		Set the attributes that are common for all the teast cases.
+        """
+        # Setting Dummy value that can be used during test
+        cls.si = Mock()
+        cls.vsphere_host = VsphereHost(cls.si)   
+
+        # Setting required parameters
+        cls.host_name = "host1"
+        cls.cluster_name = "cluster1"
+        cls.host_spec_dict = {}
+
+    @classmethod
+    def tearDownClass(cls):
+        """
+        Releases/deletes instance attributes, this gets called  after execution of all tests in Test Class.
+        """
+        del cls.si
+        del cls.vsphere_host
+        
+		
+	def test_addHost(self):
+        """
+        Test case: Check if the specified host gets added successfully (Positive Scenario)
+        """
+        
