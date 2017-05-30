@@ -1,0 +1,92 @@
+A metaclass is defined as "the class of a class"
+
+- Every object (including built-ins) in Python has a class
+- So classes have class too (classes are objects of a class)
+- type is the class of Python classes aka Metaclass
+
+e.g.
+>>> class SomeClass(object): pass
+...
+>>> someobject = SomeClass()
+>>> someobject.__class__   
+<class __main__.SomeClass>
+
+>>> SomeClass.__class__  /* Class of a class */
+<type 'type'>
+
+In the example above someobject is a SomeClass object, SomeClass itself is a type object
+
+
+Creation of a class:
+---------------------
+1. When it sees a class definition, Python executes it to collect the attributes (including methods) into a dictionary
+2. When the class definition is over, Python determines the metaclass of the class. Let's call it Meta
+3. Eventually, Python executes Meta(name, bases, dct), where:
+	- Meta is the metaclass, so this invocation is instantiating it.
+    - name is the name of the newly created class
+	- bases is a tuple of the class's base classes
+	- dct maps attribute names to objects, listing all of the class's attributes
+	
+How do we determine the metaclass of a class?
+----------------------------------------------
+If either a class or one of its bases has a __metaclass__ attribute, it's taken as the metaclass. Otherwise, type is the metaclass.
+
+
+Defining metaclass for a class:
+--------------------------------
+We need to use a spectial attribute - '__metaclass__'
+
+class MyClass(object):
+  __metaclass__ = MyMeta
+  foo = 2
+So, class is created as: MyClass = MyMeta(name, bases, dict)
+  
+So what happens when we define:
+
+class MyKlass(object):
+  foo = 2
+
+MyKlass has no __metaclass__ attribute, so type is used instead, and the class creation is done as:
+
+MyKlass = type(name, bases, dict)
+  
+
+-----------------------------------
+Metaclass's __new__ and __init__
+-----------------------------------
+- To control the creation and initialization of class you can use metaclass's __new__ and __init__ methods.
+- '__new__' should be implemented when you want to control the creation of a new object (class in our case)
+- '__init__' should be implemented when you want to control the initialization of the new object after it has been created
+
+So when the call to MyMeta is done above, what happens under the hood is this:
+
+MyKlass = MyMeta.__new__(MyMeta, name, bases, dict)
+MyMeta.__init__(MyKlass, name, bases, dict)
+
+----------------------------------
+Metaclass's __call__
+----------------------------------
+__new__ and __init__ get called at class creation time, __call__ is called when the already-created class is "called" to instantiate a new object
+
+e.g. 
+class MyMeta(type):
+    def __call__(cls, *args, **kwds):
+        print '__call__ of ', str(cls)
+        
+
+class MyKlass(object):
+    __metaclass__ = MyMeta
+
+    def __init__(self, a, b):
+        print 'MyKlass object with a=%s, b=%s' % (a, b)
+
+print 'Going to create MyClass...'
+foo = MyKlass(1, 2)
+
+Prints:
+-------
+
+Going to create MyClass...
+__call__ of  <class '__main__.MyKlass'>
+MyKlass object with a=1, b=2
+
