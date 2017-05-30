@@ -1,8 +1,10 @@
 The Python unit testing framework, sometimes referred to as “PyUnit,” is a Python language version of JUnit.
 Module name is 'unittest' which comes as a standart python library.
 
-Here is the sample example:
+Mocking is the act to replacing the part of your application you are testing with a dummy version.
 
+Here is the sample example:
+In below example, we will write unit test to verify addHost functinality.
 
 <--- Method for which unit test is to be written --->
 VsphereHost is a class for performing operation on ESXi host. 
@@ -56,7 +58,7 @@ class HostOperations(TestCase):
         """
         Sets the instance attributes, this gets called before execution of every test
         """
-        self.vim = Mock()
+        self.vim = Mock()  # Mocking vim object
 
     def tearDown(self):
         """
@@ -92,4 +94,34 @@ class HostOperations(TestCase):
         """
         Test case: Check if the specified host gets added successfully (Positive Scenario)
         """
-        
+		# Setting Expected return values for this test
+        vcenterlib.get_host = Mock(return_value=None)
+        vcenterlib.get_cluster = Mock(return_value=self.vim.ClusterComputeResource)
+        self._set_host_spec = Mock(return_value=self.vim.host.ConnectSpec)
+        vcenterlib.waitForTaskTillTimeOut = Mock(return_value=None)
+		
+		# Executing actual function
+        self.vsphere_host.addHost(host_spec)
+		
+		# Validation and assertions
+		# Check if get_host function is called. Similarly we can verify that other menthods in the functions get called
+		self.assertTrue(vcenterlib.get_host.called) 
+		
+		
+
+if __name__ == '__main__':
+    unittest.main()
+
+-------------------------------------------------------------------------------------------------------------------------------------------------	
+
+Some assert statements:
+1) Comparing two values:
+   assertEqual(first, second, msg=None)
+   assertNotEqual(first, second, msg=None)
+2) Assert boolean
+   assertTrue(expr, msg=None)
+   assertFalse(expr, msg=None)
+3) asserting exceptions
+   assertRaises(exception, callable, *args, **kwds)
+   assertRaisesRegexp(exception, regexp, callable, *args, **kwds)
+    - Like assertRaises() but also tests that regexp matches on the string representation of the raised exception
