@@ -1,0 +1,12 @@
+# This document tell you about how to assign ip to linux machine
+
+1) Assin IP address to specific interface
+
+> ifconfig eth0 192.168.10.10 netmask 255.255.255.0
+> ifconfig eth0 up <---- start the interface
+> ifconfig   <---- To verify that IP address is assigned successfully
+
+2) Assign default gateway to interface
+
+> route add default gw 192.168.10.1 eth0
+> route   <---- To verify default gateway
