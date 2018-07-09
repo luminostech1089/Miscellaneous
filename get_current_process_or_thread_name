@@ -1,0 +1,11 @@
+If you came across a prblem where you want to fetch what is the thread name or process id/name at runtime, you can achieve this as follows:
+
+import multiprocessing
+import threading 
+
+# Print process/thread name
+print multiprocessing.current_process().name  
+print threading.current_thread().name
+
+# Print process id
+print multiprocessing.current_process().pid
