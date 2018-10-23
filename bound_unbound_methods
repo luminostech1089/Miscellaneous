@@ -1,0 +1,47 @@
+A bound method is a method which is bound to an instance of a class.
+When a method gets called, 'self' parameter is passed as a first argument to a method.
+So all methods, having self as a first argument are boud methods.
+For classmethods, cls is the first argument passed to a method.
+
+All instance methods are bound methods when called using an "instance of a class".
+However, when the same method is called using a classname then python says that method is unbound.
+
+classmethods -> returns bound method when they are called using instance as well as classname.
+
+Example:
+class TestClass(object):
+    def __init__(self):
+        self.temp = 10
+
+    def foo(self):
+        print "bar"
+
+    @staticmethod
+    def foo1():
+        print "static"
+
+    @classmethod
+    def foo2(cls):
+        pass
+
+# Method called using instance
+>>> t = TestClass()
+>>> t.foo
+<bound method TestClass.foo of <runtime_Attr_access.TestClass object at 0x0000000002FA22E8
+
+# Method called using class
+>>> TestClass.foo
+<unbound method TestClass.foo>
+
+# Classmethod called usning instance and classname returns as 'Bound Method'
+>>> TestClass.foo2
+<bound method type.foo2 of <class 'runtime_Attr_access.TestClass'>>
+>>> t.foo2
+<bound method type.foo2 of <class 'runtime_Attr_access.TestCla
+
+# staicmethods are neither bound nor unbound
+>>> t.foo1
+<function foo1 at 0x0000000002F745F8>
+>>> TestClass.foo1
+<function foo1 at 0x0000000002F745F8>
+
