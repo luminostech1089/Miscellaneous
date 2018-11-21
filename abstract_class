@@ -1,0 +1,3 @@
+Abstract class is a class that contains one or more abstract methods.
+An abstract class can not be instatiated
+Subclass of abstract class are not required to implement abstarct methods in abstract class
