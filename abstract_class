@@ -1,3 +1,40 @@
 Abstract class is a class that contains one or more abstract methods.
 An abstract class can not be instatiated
-Subclass of abstract class are not required to implement abstarct methods in abstract class
+Subclass of abstract class must implement abstarct methods in abstract class they are derived from. 
+
+To create a abstract class __metaclass__ attribute needs to be used.
+
+Example-1:
+from abc import ABCMeta, abstractmethod
+
+class Animal:
+    __metaclass__ = ABCMeta
+
+    @abstractmethod
+    def talk(self):
+        return "I am animal"
+
+class Sparrow(Animal):
+
+    def talk(self):
+        s = super(Sparrow, self).talk()
+        print "{}. I say ChiChi...".format(s)
+
+>>> s = Sparrow()
+>>> s.talk()
+I am animal. I say ChiChi...
+>>>
+
+If talk method is not implemented in Sparrow class, python throws an exception as shon below:
+>>> s = Sparrow()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: Can't instantiate abstract class Sparrow with abstract methods talk
+>>>
+
+*********
+Use Case:
+*********
+If you have mutiple classes of same category that needs to implement few same methods, then its a good use case to use abstract class.
+For example you have a classes like Duck, Horse, Cat that have same method 'Talk', then you can implement abstract class Animal
+with abstract method 'Talk' so that all child class must implement 'Talk'.
