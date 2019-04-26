@@ -1,0 +1,9 @@
+Get working directory of current file:
+----------------------------------------
+os.path.dirname(__file__)
+
+Expand the path to inclde users home directory:
+-----------------------------------------------
+os.path.expanduser("~%stemp"%(os.path.sep))
+>>>/home/auser/temp     // on linux
+>>>C:\auser\temp        // on windows
