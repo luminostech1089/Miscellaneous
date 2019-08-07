@@ -1,0 +1,32 @@
+File test.py is located @ /home/abhi/TestProject :
+
+Scenario-1: 
+------------
+python /home/abhi/TestProject/test.py 
+__file__  => /home/abhi/TestProject/test.py
+os.path.dirname(__file__) =>  /home/abhi/TestProject
+
+Scenario-2:
+-----------
+cd /home/abhi/TestProject
+python test.py 
+__file__ => test.py
+os.path.dirname(__file__) =>  ""
+
+
+Scenario-3:
+-----------
+python ~/TestProject/test.py
+__file__ => /home/abhi/TestProject/test.py
+os.path.dirname(__file__) =>  /home/abhi/TestProject
+
+Scenario-4:
+python ../../tmp/test.py
+__file__ => ../../tmp/test.py
+os.path.dirname(__file__) =>  ../../tmp
+
+So its always better to use os.path.abspath(__file__)
+And in case of symbolink link present use: os.path.abspath(os.path.realpath(__file__))
+
+os.pathabspath - Removes . .. or ~ from path and provides full file path
+os.path.realpath - does similar to abspath but in addition derefences symbolic links on those operating systems which support them
