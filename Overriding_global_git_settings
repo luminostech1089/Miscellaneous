@@ -1,0 +1,17 @@
+Overriding git remote pull/push url
+=====================================
+
+1. You can check the existing pull and push urls using command: git remote -v
+2. To change push url, execute command: git remote set-url --push <remote_name> <new_url> <old_url>
+   e.g. git remote set-url --push origin ssh://someuser@git-master:12001/tools/testing ssh://someotheruser@git-master:12001/tools/testing
+   Other supported operation mutually exclusive with --push are [--add (add url), --delete (delete url)]
+   If --push is not specified, both the URLs gets changed with new URL.
+   
+   
+Overriding git editor:
+=======================
+The default edtor in ubuntu is nano which might not be friendly for vim users. To change the editor do -
+1. Set core.editor in gitconfig : git config --local core.editor "vim"
+   OR
+2. Set GIT_EDITOR environment variable: export GIT_EDITOR=vim
+   
