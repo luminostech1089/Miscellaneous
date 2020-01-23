@@ -1,0 +1,11 @@
+Do you want to do some quick parsing on the file content? 
+You can do it quickly in terminal.
+python provides -c arguments to execute commands.
+
+e.g. 
+# Q. open a file and print all lines matching a pattern
+python -c 'import re
+with open(filename, "r") as fh:
+   print [line for line in fh if re.search(pattern, line)]'
+
+Interesting this is that, you can scroll up/down like the any command and update if required.
