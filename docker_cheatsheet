@@ -1,0 +1,43 @@
+===========
+Pull Image:
+===========
+docker pull <image_name>:<tag>
+
+tag is optional. By Default 'latest' tag is pulled
+
+=================================
+Search Image in docker repository
+=================================
+docker search <imae_name>
+
+==============================
+List downloaded docker Images
+==============================
+docker images
+
+===================================
+Disk space occupied by Docker image
+===================================
+docker system df
+
+=======================
+Delete docker images
+=======================
+docker rmi <image_name>
+
+===============
+Start container
+===============
+docker run -dit <image_name>  --name=<container name>
+
+d = detach (Run container in backgroud)
+i=interactive
+t=assign pseudo tty
+--name= Human readable quick name (optional)
+
+===============
+List containers
+===============
+docker ps -a
+
+Note: By default 'ps' list only running containers. -a lists stoped containers as well
