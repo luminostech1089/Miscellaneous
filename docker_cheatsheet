@@ -35,6 +35,8 @@ i=interactive
 t=assign pseudo tty
 --name= Human readable quick name (optional)
 
+Note: If -d option is not specified, container is stopped when user types 'exit' on docker terminal.
+
 ===============
 List containers
 ===============
@@ -67,5 +69,9 @@ Connecting to the container
 running in background
 ===========================
 docker run -dit httpd  <--- launch container in background
-docker exec -it <container_name> /bin/bash
+docker exec -it <container_name> bash  <This cmd launch docker with docker terminal to interact with>
+
+To execute command in docker from host:
+docker exec -d httpd touch /root/hello
+
 
