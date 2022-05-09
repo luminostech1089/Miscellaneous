@@ -41,3 +41,16 @@ List containers
 docker ps -a
 
 Note: By default 'ps' list only running containers. -a lists stoped containers as well
+
+=================
+Delete Container
+=================
+docker rm <container_name>
+
+=================================
+Set docker to restart upon reboot
+==================================
+The "--restart" option sets the restart policy. 
+restart="always", ensures the container will always restartupon the Docker daemon startup (system boot/reboot).
+
+docker run -d --name xyz --restart=always <image_name>
