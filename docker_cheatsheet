@@ -54,3 +54,18 @@ The "--restart" option sets the restart policy.
 restart="always", ensures the container will always restartupon the Docker daemon startup (system boot/reboot).
 
 docker run -d --name xyz --restart=always <image_name>
+
+======================
+Read logs from docker
+=====================
+docker logs -f <container_name>
+
+-f: Read continuos logs 
+
+===========================
+Connecting to the container 
+running in background
+===========================
+docker run -dit httpd  <--- launch container in background
+docker exec -it <container_name> /bin/bash
+
