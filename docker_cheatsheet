@@ -58,11 +58,19 @@ restart="always", ensures the container will always restartupon the Docker daemo
 docker run -d --name xyz --restart=always <image_name>
 
 ======================
-Read logs from docker
-=====================
+View logs from docker
+======================
+docker logs <container_name>
 docker logs -f <container_name>
 
 -f: Read continuos logs 
+Note: Use -t to get timestamp associated with log lines
+
+============================
+View logs from docker daemon
+============================
+journelctl --no-pager -u docker.service -n <no of lines to show>
+
 
 ===========================
 Connecting to the container 
