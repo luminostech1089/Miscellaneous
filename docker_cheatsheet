@@ -83,3 +83,10 @@ To execute command in docker from host:
 docker exec -d httpd touch /root/hello
 
 
+==========================
+Cleanup
+==========================
+1. Delete all images to free up host space:
+   sudo docker image prune -a   # Note: Container must be stopped and removed first
+2. Remove all unused containers, networks, images and optionally volumes:
+   sudo docker system prune  (Note: -a to remove all and not just dangling images and --volume to remove unused volumes)
