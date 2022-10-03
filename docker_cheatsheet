@@ -90,3 +90,9 @@ Cleanup
    sudo docker image prune -a   # Note: Container must be stopped and removed first
 2. Remove all unused containers, networks, images and optionally volumes:
    sudo docker system prune  (Note: -a to remove all and not just dangling images and --volume to remove unused volumes)
+   
+=============================
+What is docker dangling image
+=============================
+Docker dangling image is tthe one which does not have any name and tag.
+Its very well explained here - https://www.howtogeek.com/devops/what-are-dangling-docker-images/#:~:text=Dangling%20images%20are%20untagged%20Docker,but%20still%20consume%20disk%20space.
